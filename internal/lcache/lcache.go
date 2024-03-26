@@ -1,16 +1,23 @@
 package lcache
 
-// local cache
 import (
 	"sync"
 	"time"
 )
 
+// Cache represents a local cache.
 type Cache struct {
 	cache map[string]cacheEntry
 	mutex sync.Mutex
 }
 
+// cacheEntry represents an entry in the cache.
+type cacheEntry struct {
+	createdAt time.Time
+	val       []byte
+}
+
+// NewCache creates a new Cache instance with the specified reaping interval.
 func NewCache(interval time.Duration) *Cache {
 	cache := &Cache{
 		cache: make(map[string]cacheEntry),
@@ -19,11 +26,7 @@ func NewCache(interval time.Duration) *Cache {
 	return cache
 }
 
-type cacheEntry struct {
-	createdAt time.Time
-	val       []byte
-}
-
+// Add adds a new key-value pair to the cache.
 func (c *Cache) Add(key string, val []byte) {
 	c.cache[key] = cacheEntry{
 		createdAt: time.Now(),
@@ -31,6 +34,8 @@ func (c *Cache) Add(key string, val []byte) {
 	}
 }
 
+// Get retrieves the value associated with the specified key from the cache.
+// It returns the value and a boolean indicating whether the key was found.
 func (c *Cache) Get(key string) ([]byte, bool) {
 	entry, ok := c.cache[key]
 	if !ok {
@@ -39,6 +44,7 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 	return entry.val, true
 }
 
+// reapLoop is a goroutine that periodically reaps expired cache entries.
 func (c *Cache) reapLoop(interval time.Duration) {
 	ticker := time.NewTicker(interval)
 	defer ticker.Stop()
@@ -48,6 +54,7 @@ func (c *Cache) reapLoop(interval time.Duration) {
 	}
 }
 
+// reap removes expired cache entries from the cache.
 func (c *Cache) reap(interval time.Duration) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()

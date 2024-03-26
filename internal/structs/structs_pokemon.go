@@ -1,3 +1,4 @@
+// PokemonS represents a Pokemon object with various attributes and details.
 package structs
 
 type PokemonS struct {

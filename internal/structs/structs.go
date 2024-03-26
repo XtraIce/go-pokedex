@@ -1,12 +1,15 @@
 package structs
 
+// Pokedex represents a map of PokemonS structs, where the key is a string.
 type Pokedex map[string]PokemonS
 
+// Entry represents a Pokemon entry with its name and URL.
 type Entry struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
 
+// LocationS represents a location with its count, next and previous URLs, and a list of entries.
 type LocationS struct {
 	Count    int     `json:"count"`
 	Next     string  `json:"next"`
@@ -14,6 +17,8 @@ type LocationS struct {
 	Entrys   []Entry `json:"Entrys"`
 }
 
+// LocationAreaS represents a location area with its ID, name, game index, encounter method rates,
+// location, names, and Pokemon encounters.
 type LocationAreaS struct {
 	ID                   int    `json:"id"`
 	Name                 string `json:"name"`

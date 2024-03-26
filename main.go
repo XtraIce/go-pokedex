@@ -24,7 +24,6 @@ func main() {
 		for !execCmd && !exit {
 			command := readCommand()
 			if command != nil {
-				//fmt.Println("command: ", command)
 				execCmd = true
 				cli.AddPrevCmd(strings.Join(command, " "))
 				executeCommand(command)
@@ -49,22 +48,24 @@ func readInput() rune {
 
 // print string on terminal input line
 func printOnTerminalInputLine(str string) {
-	//termbox.SetCursor(len(str), 0)
 	fmt.Print("\r\033[K")
 	fmt.Print(termPrefix + str)
 }
 
+// readCommand reads user input from the terminal and returns a slice of strings representing the command entered.
+// It continuously reads input until the user presses the Enter key.
+// The function handles various key events, such as arrow keys for command history traversal and backspace for deleting characters.
+// If the user presses the Esc key, the function sets the `exit` flag to true and returns nil.
+// The returned command is split into individual strings based on space characters.
 func readCommand() []string {
 	var command []string
 	str := ""
 	input := []rune{}
 	for {
 		c := readInput()
-		//log.Default().Println("input: ", c)
 		switch c {
 		default:
 			input = append(input, c)
-			//termbox.SetCursor(len(input), 0)
 			fmt.Print(string(c))
 		case rune(termbox.KeyArrowUp):
 			str = cli.TraversePrevCmds()
@@ -85,8 +86,6 @@ func readCommand() []string {
 		case rune(termbox.KeyEnter):
 			command = strings.Split(string(input), " ")
 			fmt.Println()
-			//fmt.Println("the command: ", command)
-			//termbox.Flush()
 			return command
 		}
 		termbox.SetCursor(len(input), 0)

@@ -5,12 +5,14 @@ import (
 	"sort"
 )
 
+// CliCommand represents a command in the CLI.
 type CliCommand struct {
 	Name        string
 	Description string
 	Callback    func(args []string) error
 }
 
+// CliCommands is a map of command names to CliCommand objects.
 var CliCommands = map[string]CliCommand{}
 
 func init() {

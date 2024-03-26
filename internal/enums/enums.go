@@ -1,5 +1,6 @@
 package enums
 
+// PokeEndpoint represents the different endpoints for the Pokémon API.
 type PokeEndpoint int
 
 const (
@@ -54,6 +55,7 @@ const (
 	Language
 )
 
+// String returns the string representation of the PokeEndpoint.
 func (p PokeEndpoint) String() string {
 	return [...]string{"berries", "berry-firmness", "berry-flavor", "contest", "contest-effect",
 		"super-contest-effect", "encounter-method", "encounter-condition", "encounter-condition-value",
@@ -66,6 +68,7 @@ func (p PokeEndpoint) String() string {
 		"pokemon-species", "stat", "type", "language"}[p-1]
 }
 
+// EnumIndex returns the index of the PokeEndpoint.
 func (p PokeEndpoint) EnumIndex() int {
 	return int(p)
 }

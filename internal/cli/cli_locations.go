@@ -18,6 +18,7 @@ var locations *lcache.Cache
 var locationAreas *lcache.Cache
 var fwd bool
 
+// getLocations retrieves the locations and prints their names.
 func getLocations() {
 	if currLocations == nil { // first time
 		locations = lcache.NewCache(time.Minute * 5)
@@ -34,7 +35,6 @@ func getLocations() {
 		var ok bool
 		var err error
 		if req, ok = locations.Get(fmt.Sprint(currLocationIdx)); ok {
-			//log.Default().Println("Found in cache")
 		} else if req, err = getRequest(currLocations.Next); err == nil { // fetch next
 			locations.Add(fmt.Sprint(currLocationIdx), req) // cache
 		} else {
@@ -51,6 +51,7 @@ func getLocations() {
 	currLocationIdx += len(currLocations.Entrys)
 }
 
+// getLocationsBefore retrieves the previous locations and prints their names.
 func getLocationsBefore() {
 	if fwd {
 		fwd = false
@@ -74,18 +75,16 @@ func getLocationsBefore() {
 	}
 }
 
+// exploreLocation retrieves the location area details and prints the encountered Pokemon names.
 func exploreLocation(locationArea string) {
 	if currlocationArea == nil {
-		//fmt.Println("First time")
 		locationAreas = lcache.NewCache(time.Minute * 5)
 	}
 	if req, ok := locationAreas.Get(locationArea + "-area"); ok {
-		//fmt.Println("Found in cache")
 		if err := json.Unmarshal(req, &currlocationArea); err != nil {
 			log.Fatal(err)
 		}
 	} else if req, ok := getPokeRequest(enums.LocationArea, locationArea+"-area"); ok == nil {
-		//fmt.Println("Fetching")
 		if err := json.Unmarshal(req, &currlocationArea); err != nil {
 			log.Fatal(err)
 		}

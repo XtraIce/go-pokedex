@@ -9,6 +9,11 @@ import (
 	enums "github.com/xtraice/pokedexcli/internal/enums"
 )
 
+// getPokeRequest makes a GET request to the PokeAPI and returns the response body as a byte slice.
+// It takes a PokeEndpoint and an idName as parameters.
+// If the PokeEndpoint is not PokemonLocationArea, it constructs the request URL using the PokeEndpoint and idName.
+// If the PokeEndpoint is PokemonLocationArea, it constructs the request URL using the idName.
+// It returns the response body as a byte slice and an error if any.
 func getPokeRequest(pe enums.PokeEndpoint, idName string) ([]byte, error) {
 	var req []byte
 	var ok error
@@ -24,6 +29,9 @@ func getPokeRequest(pe enums.PokeEndpoint, idName string) ([]byte, error) {
 	return req, nil
 }
 
+// getRequest makes a GET request to the specified URL and returns the response body as a byte slice.
+// It takes a request URL as a parameter.
+// It returns the response body as a byte slice and an error if any.
 func getRequest(request string) ([]byte, error) {
 	res, err := http.Get(request)
 	if err != nil {

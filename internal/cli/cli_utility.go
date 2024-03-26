@@ -7,37 +7,39 @@ func init() {
 	prevCmds = []string{""}
 }
 
-// add a command to the prevCmds slice
+// AddPrevCmd adds a command to the prevCmds slice.
+// If the command is empty or the same as the last one, it will not be added to the list.
 func AddPrevCmd(cmd string) {
-	if cmd == "" || cmd == prevCmds[len(prevCmds)-1] { //if the command is the same as the last one, don't add it to the list
+	if cmd == "" || cmd == prevCmds[len(prevCmds)-1] {
 		return
 	}
 	prevCmds = append(prevCmds, cmd)
-	//log.Default().Println("prevCmds: ", prevCmds)
 	trimPrevCmds()
 }
 
-// return the prevCmds slice
+// GetPrevCmds returns the prevCmds slice.
 func GetPrevCmds() []string {
 	return prevCmds
 }
 
-// trim the prevCmds slice to the last 10 commands
+// trimPrevCmds trims the prevCmds slice to the last 10 commands.
 func trimPrevCmds() {
 	if len(prevCmds) > 10 {
 		prevCmds = prevCmds[len(prevCmds)-10:]
 	}
-	cmdIdx = len(prevCmds) //reset the cmdIdx
+	cmdIdx = len(prevCmds)
 }
 
-// traverse the prevCmds slice in the backward direction
+// TraversePrevCmds traverses the prevCmds slice in the backward direction.
+// It decrements the cmdIdx and returns the command.
 func TraversePrevCmds() string {
-	cmdIdx = max(0, cmdIdx-1) //decrement the cmdIdx
-	return prevCmds[cmdIdx]   //return the command
+	cmdIdx = max(0, cmdIdx-1)
+	return prevCmds[cmdIdx]
 }
 
-// traverse the prevCmds slice in the forward direction
+// TraverseNextCmds traverses the prevCmds slice in the forward direction.
+// It increments the cmdIdx and returns the command.
 func TraverseNextCmds() string {
-	cmdIdx = min(cmdIdx+1, len(prevCmds)-1) //increment the cmdIdx
-	return prevCmds[cmdIdx]                 //return the command
+	cmdIdx = min(cmdIdx+1, len(prevCmds)-1)
+	return prevCmds[cmdIdx]
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/xtraice/pokedexcli/internal/lcache"
 )
 
+// TestCache_Add tests the Add method of the Cache struct.
 func TestCache_Add(t *testing.T) {
 	cache := lcache.NewCache(time.Second)
 
@@ -21,6 +22,7 @@ func TestCache_Add(t *testing.T) {
 	}
 }
 
+// TestCache_Get tests the Get method of the Cache struct.
 func TestCache_Get(t *testing.T) {
 	cache := lcache.NewCache(time.Second)
 
@@ -44,6 +46,7 @@ func TestCache_Get(t *testing.T) {
 	}
 }
 
+// TestCache_Reap tests the Reap method of the Cache struct.
 func TestCache_Reap(t *testing.T) {
 	cache := lcache.NewCache(time.Second)
 
